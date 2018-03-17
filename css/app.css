@@ -5,3 +5,8 @@ html, body, webview {
     overflow: hidden;
     display: inline-flex;
 }
+
+body {
+  -ms-overflow-style: scrollbar;
+  -webkit-app-region: drag;
+}

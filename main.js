@@ -10,7 +10,8 @@ function createWindow() {
     height: 667,
     vibrancy: 'light',
     autoHideMenuBar: true,
-    alwaysOnTop: config.get('alwaysOnTop')
+    alwaysOnTop: config.get('alwaysOnTop'),
+    frame: false
   })
 
   mainWindow.loadURL(url.format({
