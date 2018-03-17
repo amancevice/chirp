@@ -20,98 +20,108 @@ function createWindow() {
     slashes: true
   }))
 
-    // mainWindow.openDevTools()
-    mainWindow.on('closed', () => mainWindow = null)
+  // mainWindow.openDevTools()
+  mainWindow.on('closed', () => mainWindow = null)
 
-    chirpMenu()
+  mainWindow.on('close', () => {
+    config.set('winBounds', mainWindow.getBounds())
+  })
+
+  chirpMenu()
+}
+
+app.on('ready', createWindow)
+
+app.on('window-all-closed', () => {
+  if (process.platform !== 'darwin') {
+    app.quit()
   }
+})
 
-  app.on('ready', createWindow)
+app.on('activate', () => {
+  if (mainWindow === null) {
+    createWindow()
+  }
+})
 
-  app.on('window-all-closed', () => {
-    if (process.platform !== 'darwin') {
-      app.quit()
-    }
-  })
-
-  app.on('activate', () => {
-    if (mainWindow === null) {
-      createWindow()
-    }
-  })
-
-  function chirpMenu () {
-    const topBarMenu = [{
+function chirpMenu () {
+  const topBarMenu = [
+    {
       label: 'Chirp',
-      submenu: [{
-        label: 'About',
-        click(){
-          shell.openExternal('https://jackhanford.com/chirp')
+      submenu: [
+        {
+          label: 'About',
+          click () {
+            shell.openExternal('https://jackhanford.com/chirp')
+          }
+        }, {
+          label: 'Get the latest update',
+          click () {
+            shell.openExternal('https://github.com/hanford/chirp/releases')
+          }
+        }, {
+          label: 'Submit a bug report',
+          click () {
+            shell.openExternal('https://github.com/hanford/chirp/issues')
+          }
+        }, {
+          role: 'quit'
         }
-      }, {
-        label: 'Get the latest update',
-        click(){
-          shell.openExternal('https://github.com/hanford/chirp/releases')
-        }
-      }, {
-        label: 'Submit a bug report',
-        click(){
-          shell.openExternal('https://github.com/hanford/chirp/issues')
-        }
-      }, {
-        role: 'quit'
-      }]
+      ]
     }, {
       label: 'Edit',
-      submenu: [{
-        role: 'undo'
-      }, {
-        role: 'redo'
-      }, {
-        type: 'separator'
-      }, {
-        role: 'cut'
-      }, {
-        role: 'copy'
-      }, {
-        role: 'paste'
-      }, {
-        role: 'pasteandmatchstyle'
-      }, {
-        role: 'delete'
-      }, {
-        role: 'selectall'
-      }]
+      submenu: [
+        {
+          role: 'undo'
+        }, {
+          role: 'redo'
+        }, {
+          type: 'separator'
+        }, {
+          role: 'cut'
+        }, {
+          role: 'copy'
+        }, {
+          role: 'paste'
+        }, {
+          role: 'pasteandmatchstyle'
+        }, {
+          role: 'delete'
+        }, {
+          role: 'selectall'
+        }
+      ]
     }, {
       label: 'View',
-      submenu: [{
-        label: 'Reload',
-        accelerator: 'CmdOrCtrl+R',
-        click (item, focusedWindow) {
-          if (focusedWindow) focusedWindow.reload()
+      submenu: [
+        {
+          label: 'Reload',
+          accelerator: 'CmdOrCtrl+R',
+          click (item, focusedWindow) {
+            if (focusedWindow) focusedWindow.reload()
+          }
+        }, {
+          type: 'separator'
+        }, {
+          role: 'resetzoom'
+        }, {
+          role: 'zoomin'
+        }, {
+          role: 'zoomout'
+        }, {
+          type: 'separator'
+        }, {
+          label: 'Toggle always on top',
+          accelerator: 'CmdOrCtrl+Shift+A',
+          click () {
+            mainWindow.setAlwaysOnTop(!config.get('alwaysOnTop'))
+            config.set('alwaysOnTop', mainWindow.isAlwaysOnTop())
+          }
+        }, {
+          role: 'hide'
         }
-      }, {
-        type: 'separator'
-      }, {
-        role: 'resetzoom'
-      }, {
-        role: 'zoomin'
-      }, {
-        role: 'zoomout'
-      }, {
-        type: 'separator'
-      }, {
-        label: 'Toggle always on top',
-        accelerator: 'CmdOrCtrl+Shift+A',
-        click () {
-        mainWindow.setAlwaysOnTop(!config.get('alwaysOnTop'))
-        config.set('alwaysOnTop', mainWindow.isAlwaysOnTop())
-        }
-      }, {
-        role: 'hide'
-      }
-    ]
-  }]
+      ]
+    }]
 
   Menu.setApplicationMenu(Menu.buildFromTemplate(topBarMenu))
 }
