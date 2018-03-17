@@ -1,8 +1,8 @@
 const webview = document.getElementById('twitter')
 const { remote, ipcRenderer } = require('electron')
-const Analytics = require('electron-google-analytics')
+//const Analytics = require('electron-google-analytics')
 
-new Analytics.default('UA-45226320-3')
+//new Analytics.default('UA-45226320-3')
 
 const shell = remote.shell
 
