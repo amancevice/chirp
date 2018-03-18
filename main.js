@@ -5,14 +5,16 @@ const url = require('url')
 const config = require('./config')
 
 function createWindow() {
-  mainWindow = new BrowserWindow({
+  opts = {
     width: 375,
     height: 667,
     vibrancy: 'light',
     autoHideMenuBar: true,
     alwaysOnTop: config.get('alwaysOnTop'),
     frame: false
-  })
+  }
+  Object.assign(opts, config.get('winBounds'))
+  mainWindow = new BrowserWindow(opts)
 
   mainWindow.loadURL(url.format({
     pathname: path.join(__dirname, 'index.html'),
