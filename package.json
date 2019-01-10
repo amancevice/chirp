@@ -22,9 +22,8 @@
     "build-darwin": "electron-packager . Chirp --platform=darwin --icon=./icon/icon.icns --out=./release-builds/ --overwrite --app-bundle-id=\"com.jackhanford.chirp\""
   },
   "dependencies": {
-    "@paulcbetts/spellchecker": "^4.0.6",
     "electron": "~1.7.1",
     "electron-config": "~1.0.0",
-    "electron-spellchecker": "~1.0.8"
+    "electron-spellchecker": "~1.1.2"
   }
 }
